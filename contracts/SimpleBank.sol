@@ -31,7 +31,7 @@ contract SimpleBank {
 
     /* Create an event called LogWithdrawal */
     /* Add 3 arguments for this event, an accountAddress, withdrawAmount and a newBalance */
-    event LogWithdrawal(address indexed accountAddress,uint withdrawAmount,uint newBalance)
+    event LogWithdrawal(address indexed accountAddress,uint withdrawAmount,uint newBalance);
 
     //
     // Functions
@@ -58,8 +58,8 @@ contract SimpleBank {
     }
     
       function enroll() public returns (uint) {
-        if (clientCount < 3) {
-            clientCount++;
+        if (clientEtherCount < 3) {
+            clientEtherCount++;
             balances[msg.sender] = 10 ether;
         }
         return balances[msg.sender];
