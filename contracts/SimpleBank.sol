@@ -22,14 +22,14 @@ contract SimpleBank {
     //
     
     /* Add an argument for this event, an accountAddress */
-    event LogEnrolled(address indexed accountAddress);
+    event LogEnrolled(address accountAddress);
 
     /* Add 2 arguments for this event, an accountAddress and an amount */
-    event LogDepositMade(address indexed accountAddress, uint amount);
+    event LogDepositMade(address accountAddress, uint amount);
 
     /* Create an event called LogWithdrawal */
     /* Add 3 arguments for this event, an accountAddress, withdrawAmount and a newBalance */
-    event LogWithdrawal(address indexed accountAddress,uint withdrawAmount,uint newBalance);
+    event LogWithdrawal(address accountAddress,uint withdrawAmount,uint newBalance);
 
     //
     // Functions
@@ -57,14 +57,8 @@ contract SimpleBank {
     /// @return The users enrolled status
     // Emit the appropriate event
   function enroll() public returns (bool){
-        if (enrolled[msg.sender] == true){
-            return true;
-        }
-        else{
             enrolled[msg.sender] = true;
             emit LogEnrolled(msg.sender);
-            return true;
-        }
     }
 
     /// @notice Deposit ether into bank
@@ -76,7 +70,7 @@ contract SimpleBank {
         /* Add the amount to the user's balance, call the event associated with a deposit,
           then return the balance of the user */
            balances[msg.sender] += msg.value;
-           emit LogDepositMade(msg.sender, balances[msg.sender]);
+           emit LogDepositMade(msg.sender,msg.sender);
            return balances[msg.sender];
     }
 
@@ -91,7 +85,7 @@ contract SimpleBank {
            to the user attempting to withdraw. 
            return the user's balance.*/
            require(balances[msg.sender] >= withdrawAmount, "sender does not have enough to withdraw");
-           balances[msg.sender] = balances[msg.sender] - withdrawAmount;
+           balances[msg.sender] -= withdrawAmount;
            msg.sender.transfer(withdrawAmount);
            emit LogWithdrawal(msg.sender, withdrawAmount, balances[msg.sender]);
            return balances[msg.sender];
@@ -103,7 +97,7 @@ contract SimpleBank {
     // Typically, called when invalid data is sent
     // Added so ether sent to this contract is reverted if the contract fails
     // otherwise, the sender's money is transferred to contract
-  function() external payable {
-        revert("fallback error");
+  function() external {
+        revert();
 }
 }
