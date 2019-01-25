@@ -47,7 +47,7 @@ contract SimpleBank {
     /// @return The balance of the user
     // A SPECIAL KEYWORD prevents function from editing state variables;
     // allows function to run locally/off blockchain
-    function balance() public returns (uint) {
+    function balance() public view returns (uint) {
         /* Get the balance of the sender of this transaction */
          return balances[msg.sender];
     }
@@ -70,7 +70,7 @@ contract SimpleBank {
         /* Add the amount to the user's balance, call the event associated with a deposit,
           then return the balance of the user */
            balances[msg.sender] += msg.value;
-           emit LogDepositMade(msg.sender,msg.value);
+           emit LogDepositMade(msg.sender, msg.value);
            return balances[msg.sender];
     }
 
@@ -84,9 +84,8 @@ contract SimpleBank {
            Subtract the amount from the sender's balance, and try to send that amount of ether
            to the user attempting to withdraw. 
            return the user's balance.*/
-           require(balances[msg.sender] >= withdrawAmount, "sender does not have enough to withdraw");
+           require(balances[msg.sender] >= withdrawAmount);
            balances[msg.sender] -= withdrawAmount;
-           msg.sender.transfer(withdrawAmount);
            emit LogWithdrawal(msg.sender, withdrawAmount, balances[msg.sender]);
            return balances[msg.sender];
        
