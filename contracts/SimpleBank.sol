@@ -7,8 +7,6 @@
 pragma solidity >=0.4.22 <0.6.0;
 
 contract SimpleBank {
-
-    uint8 private clientEtherCount;
     
     /* Fill in the keyword. Hint: We want to protect our users balance from other contracts*/
     mapping (address => uint) private balances;
