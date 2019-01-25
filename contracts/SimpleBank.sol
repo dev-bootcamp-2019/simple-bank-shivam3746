@@ -54,16 +54,19 @@ contract SimpleBank {
          return balances[msg.sender];
     }
     
-   function enroll() public returns (bool){
-        enrolled[msg.sender] = true;
-        emit LogEnrolled(msg.sender);
-        return enrolled[msg.sender];
-    }
 
     /// @notice Enroll a customer with the bank
     /// @return The users enrolled status
     // Emit the appropriate event
-    function enroll() public returns (bool status){
+  function enroll() public returns (bool){
+        if (enrolled[msg.sender] == true){
+            return true;
+        }
+        else{
+            enrolled[msg.sender] = true;
+            emit LogEnrolled(msg.sender);
+            return true;
+        }
     }
 
     /// @notice Deposit ether into bank
